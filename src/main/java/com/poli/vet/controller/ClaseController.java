@@ -1,5 +1,6 @@
 package com.poli.vet.controller;
 
+import com.poli.vet.dto.ClaseDTO;
 import com.poli.vet.entity.Clase;
 import com.poli.vet.service.interfaces.IClaseService;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,10 @@ public class ClaseController {
     @GetMapping("/{id}")
     public Clase obtenerClasePorId(@PathVariable Integer id) {
         return claseService.obtenerPorId(id);
+    }
+    @PostMapping("/asignar")
+    public Clase asignarClase(@RequestBody ClaseDTO claseDTO) {
+        return claseService.asignarClaseAProfesor(claseDTO);
     }
 
     @PostMapping
