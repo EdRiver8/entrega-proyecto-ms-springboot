@@ -1,7 +1,9 @@
 package com.poli.vet.controller;
 
+import com.poli.vet.dto.AlumnoDTO;
 import com.poli.vet.entity.Alumno;
 import com.poli.vet.service.AlumnoService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,9 @@ public class AlumnoController {
     }
 
     @PostMapping
-    public ResponseEntity<Alumno> crear(@RequestBody Alumno alumno) {
-        return ResponseEntity.ok(alumnoService.guardar(alumno));
+    public ResponseEntity<Alumno> guardar(@Valid @RequestBody AlumnoDTO alumnoDTO) {
+        Alumno alumnoCreado = alumnoService.guardar(alumnoDTO);
+        return ResponseEntity.ok(alumnoCreado);
     }
 
     @GetMapping

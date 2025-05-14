@@ -5,8 +5,10 @@ import lombok.*;
 
 @Entity
 @Table(name = "inscripciones")
-@Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Inscripcion {
 

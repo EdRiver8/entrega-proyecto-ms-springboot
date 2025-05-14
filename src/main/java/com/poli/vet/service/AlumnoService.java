@@ -1,5 +1,6 @@
 package com.poli.vet.service;
 
+import com.poli.vet.dto.AlumnoDTO;
 import com.poli.vet.entity.Alumno;
 import com.poli.vet.repository.AlumnoRepository;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,18 @@ public class AlumnoService {
         this.alumnoRepository = alumnoRepository;
     }
 
-    public Alumno guardar(Alumno alumno) {
+    public Alumno guardar(AlumnoDTO dto) {
+        if (dto.getEdad() < 7) {
+            throw new IllegalArgumentException("La edad mínima es 7 años");
+        }
+
+        Alumno alumno = Alumno.builder()
+                .nombre(dto.getNombre())
+                .correo(dto.getCorreo())
+                .edad(dto.getEdad())
+                .nivel(dto.getNivel())
+                .build();
+
         return alumnoRepository.save(alumno);
     }
 
