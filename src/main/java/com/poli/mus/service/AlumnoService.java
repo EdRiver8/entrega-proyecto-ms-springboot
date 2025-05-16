@@ -2,7 +2,7 @@ package com.poli.mus.service;
 
 import com.poli.mus.dto.AlumnoDTO;
 import com.poli.mus.entity.Alumno;
-import com.poli.mus.repository.AlumnoRepository;
+import com.poli.mus.repository.IAlumnoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.List;
 @Service
 public class AlumnoService {
 
-    private final AlumnoRepository alumnoRepository;
+    private final IAlumnoRepository alumnoRepository;
 
-    public AlumnoService(AlumnoRepository alumnoRepository) {
+    public AlumnoService(IAlumnoRepository alumnoRepository) {
         this.alumnoRepository = alumnoRepository;
     }
 

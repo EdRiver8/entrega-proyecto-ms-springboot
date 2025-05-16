@@ -44,12 +44,28 @@ public class ClaseServiceImpl implements IClaseService {
         LocalDate finSemana = hoy.with(DayOfWeek.SUNDAY);
         LocalDateTime inicio = inicioSemana.atStartOfDay();
         LocalDateTime fin = finSemana.atTime(LocalTime.MAX);
+
         long clasesSemana = claseRepository.contarClasesEstaSemana(
                 claseDTO.getProfesorId(), inicio, fin
         );
         if (clasesSemana >= 5) {
             throw new ReglaNegocioException("El profesor ya tiene 5 clases asignadas esta semana.");
         }
+
+        long solapadas = claseRepository.contarClasesSolapadas(
+                claseDTO.getProfesorId(), claseDTO.getSalaId(), claseDTO.getHorario()
+        );
+        if (solapadas > 0) {
+            throw new ReglaNegocioException("Ya existe una clase en ese horario con el mismo profesor o en la misma sala.");
+        }
+
+        long instrumentoOcupado = claseRepository.contarInstrumentoOcupado(
+                claseDTO.getInstrumentoId(), claseDTO.getHorario()
+        );
+        if (instrumentoOcupado > 0) {
+            throw new ReglaNegocioException("El instrumento ya está asignado a otra clase en ese horario.");
+        }
+
         Profesor profesor = profesorRepository.findById(claseDTO.getProfesorId())
                 .orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
 
@@ -60,9 +76,9 @@ public class ClaseServiceImpl implements IClaseService {
                 .orElseThrow(() -> new RuntimeException("Instrumento no encontrado"));
 
         Clase nuevaClase = toEntity(claseDTO, profesor, sala, instrumento);
-        claseRepository.save(nuevaClase);
-        return nuevaClase;
+        return claseRepository.save(nuevaClase);
     }
+
 
 
     @Override

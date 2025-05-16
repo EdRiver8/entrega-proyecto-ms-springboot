@@ -4,6 +4,7 @@ import com.poli.mus.entity.Cliente;
 import com.poli.mus.entity.Mascota;
 import com.poli.mus.repository.IClienteRepository;
 import com.poli.mus.repository.IMascotaRepository;
+import com.poli.mus.service.interfaces.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

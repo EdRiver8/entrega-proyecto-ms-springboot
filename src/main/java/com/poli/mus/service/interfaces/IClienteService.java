@@ -1,4 +1,4 @@
-package com.poli.mus.service;
+package com.poli.mus.service.interfaces;
 
 import com.poli.mus.entity.Cliente;
 
