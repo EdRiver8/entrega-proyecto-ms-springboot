@@ -1,81 +1,221 @@
-# Proyecto 1ra Entrega - Desarrollo de API REST con Spring Boot
 
-## 📌 Objetivo
-Desarrollar una aplicación Spring Boot que resuelva un problema de negocio real, aplicando buenas prácticas de diseño, validaciones, documentación y manejo de datos. El proyecto debe ser entregado con código funcional, documentación técnica y evidencias de pruebas.
+## 📄Proyecto MaestroMúsica 🎵
+
+
+# 🎼 MaestroMúsica - Sistema de Gestión para Escuela de Música
+
+**Autores:**  
+- Juan Felipe Valencia Morales  
+- Wesly Andrés Marín Pérez  
+
+**Facultad de Ingenierías**  
+**Tecnología en Sistematización de Datos**
 
 ---
 
-## 🛠 Requisitos Técnicos
+## 📌 Descripción del Proyecto
 
-### 1. Definición del Negocio
-- **Tema**: Elegir un dominio (ej: veterinaria, biblioteca, clínica médica, e-commerce).  
-- **Reglas de Negocio**:  
-  - Definir al menos 5 reglas operativas (ej: validaciones de stock, restricciones de horarios, límites de reservas).  
-  - Ejemplo para una veterinaria:  
-    ```plaintext
-    1. Una mascota no puede tener más de 3 citas activas en un mismo día.
-    2. Los medicamentos vencidos no pueden ser recetados.
-    ```
+**MaestroMúsica** es un sistema backend desarrollado con Java y Spring Boot que permite gestionar de forma eficiente la operación académica de una escuela de música.  
+Incluye el registro y control de alumnos, profesores, instrumentos, clases y evaluaciones, aplicando reglas de negocio reales y buenas prácticas de diseño.
 
-### 2. Modelado de Datos
-- **Entidades JPA**:  
-  - Mínimo 4 entidades relacionadas (ej: `Cliente`, `Producto`, `Pedido`, `Empleado`).  
-  - Diagrama UML/ER con relaciones (`@OneToMany`, `@ManyToOne`).  
-  - Trabajar con H2 o DB en linea como supabase
-- **DTOs**: Usar Data Transfer Objects para todas las operaciones de entrada/salida.
+---
 
-### 3. Implementación de APIs
-| **Endpoint**              | **Método** | **Descripción**                     | **Validaciones**                          |
-|---------------------------|------------|-------------------------------------|-------------------------------------------|
-| `POST /api/clientes`      | POST       | Crear cliente                       | Email válido, teléfono de 10 dígitos      |
-| `GET /api/productos`      | GET        | Listar productos en stock           | Filtrar por categoría/disponibilidad      |
-| `PUT /api/pedidos/{id}`   | PUT        | Actualizar estado de pedido         | Solo estados permitidos (ej: "En camino") |
+## 🎯 Objetivo
 
-### 4. Validaciones Avanzadas
-- Anotaciones personalizadas (ej: `@FechaVencimientoValida`).  
-- Manejo de errores globales con mensajes claros:  
-  ```json
-  {
-    "timestamp": "2024-10-05T10:00:00",
-    "status": 400,
-    "error": "Solicitud inválida",
-    "details": {
-      "email": "Debe ser un correo válido"
-    }
-  }
+Desarrollar una API REST funcional que implemente reglas de negocio para controlar:
 
-### 5. **Ejemplo Estructura del Proyecto**
-```plaintext
-src/
-├── main/
-│   ├── java/
-│   │   └── com/[dominio]/
-│   │       ├── controller/   # Controladores REST
-│   │       ├── model/        # Entidades JPA
-│   │       ├── repository/   # Repositorios Spring Data
-│   │       ├── service/      # Lógica de negocio
-│   │       ├── dto/         # Data Transfer Objects
-│   │       ├── config/      # Configuraciones (Swagger, etc.)
-│   │       └── exception/   # Manejo de errores
-│   └── resources/
-│       ├── application.properties
-│       └── data.sql        # Datos iniciales
-|       └── schema.sql      # Base Datos
+- Edad mínima de alumnos
+- Límite de clases por alumno
+- Límite de clases por profesor
+- Estado de instrumentos
+- Validación de horarios y disponibilidad
+
+---
+
+## 📊 Diagrama de Entidades y Relaciones
+
+```text
+[Alumno] 1---N [Inscripcion] N---1 [Clase]
+[Profesor] 1---N [Clase]
+[Clase] 1---1 [Instrumento]
+[Clase] 1---1 [Sala]
+[Evaluacion] N---1 [Alumno]
+[Evaluacion] N---1 [Profesor]
+
+Entidades:
+- Alumno(id, nombre, correo, edad, nivel)
+- Profesor(id, nombre, especialidad, disponibilidad)
+- Clase(id, horario, sala_id, instrumento_id, profesor_id)
+- Instrumento(id, nombre, tipo, estado)
+- Sala(id, nombre, capacidad)
+- Evaluacion(id, fecha, calificacion, observaciones, alumno_id, profesor_id)
+- Inscripcion(id, alumno_id, clase_id)
+````
+
+---
+
+## ⚙️ Instrucciones de Instalación
+
+### 📦 Prerrequisitos
+
+* Java 17 o superior
+* Maven
+* IDE (IntelliJ o VSCode)
+
+### ▶️ Pasos para ejecutar
+
+1. Clonar el repositorio:
+
+```bash
+git clone https://github.com/tu-usuario/maestromusica.git
 ```
 
-### 6. Criterios de Evaluación - Proyecto Spring Boot
+2. Ir al proyecto:
 
-## Tabla de Evaluación
+```bash
+cd maestromusica
+```
 
-| Categoría                     | Peso  | Detalles                                                                 |
-|-------------------------------|-------|--------------------------------------------------------------------------|
-| **Funcionalidad**             | 30%   | - APIs implementadas cumplen con todas las reglas de negocio definidas<br>- Todos los endpoints funcionan correctamente<br>- Relaciones entre entidades funcionan como se especifica |
-| **Validaciones y Excepciones**| 25%   | - Uso adecuado de anotaciones de validación (`@Valid`, `@Pattern`, etc.)<br>- Mensajes de error claros y personalizados<br>- Validación de reglas de negocio en capa de servicio |
-| **Documentación**             | 20%   | - `README.md` completo con:<br>  • Descripción del proyecto<br>  • Diagrama de entidades<br>  • Instrucciones de instalación<br>  • Ejemplos de requests/responses<br>- Documentación Swagger/OpenAPI completa<br>- Colección Postman/Insomnia compartida con todos los endpoints |
-| **Estructura de Código**      | 15%   | - Uso correcto de DTOs para transferencia de datos<br>- Separación clara en capas (controller, service, repository)<br>- Nombramiento consistente (variables, métodos, clases)<br>- Inyección de dependencias adecuada<br>- Código limpio y bien organizado |
-| **Pruebas**                   | 10%   | - Evidencias de pruebas manuales con capturas de pantalla<br>- Colección Postman/Insomnia funcional<br>- Pruebas de happy path y edge cases<br>- Validación de respuestas exitosas y de errores |
+3. Ejecutar con Maven:
 
-## Notas Adicionales
+```bash
+mvn spring-boot:run
+```
 
-- Copiar el proyecto por medio de un fork
-- Entregar por medio de un PR
+4. Acceder a la consola H2 en el navegador:
+
+```
+http://localhost:8080/h2-console
+JDBC URL: jdbc:h2:mem:vet_db
+Usuario: sa
+Contraseña: (vacía)
+```
+
+---
+
+## 🔌 Endpoints y Ejemplos
+
+### 🎓 Crear Alumno
+
+**POST** `/api/alumnos`
+
+**Request:**
+
+```json
+{
+  "nombre": "Juan Felipe",
+  "correo": "juan@mail.com",
+  "edad": 10,
+  "nivel": "intermedio"
+}
+```
+
+**Response:**
+
+```json
+{
+  "id": 1,
+  "nombre": "Juan Felipe",
+  "correo": "juan@mail.com",
+  "edad": 10,
+  "nivel": "intermedio"
+}
+```
+
+---
+
+### 🎶 Crear Clase
+
+**POST** `/api/clases`
+
+**Request:**
+
+```json
+{
+  "profesorId": 1,
+  "salaId": 2,
+  "instrumentoId": 1,
+  "horario": "2025-05-20T10:30:00"
+}
+```
+
+---
+
+### 👥 Listar Alumnos
+
+**GET** `/api/alumnos`
+
+---
+
+## ✅ Reglas de Negocio Implementadas
+
+| Código | Regla Operativa                                                             |
+| ------ | --------------------------------------------------------------------------- |
+| RN2    | No se permiten alumnos menores de 7 años                                    |
+| RN3    | Un alumno puede estar inscrito en un máximo de 3 clases activas             |
+| RN6    | Un profesor no puede tener más de 5 clases asignadas por semana             |
+| RN9    | Las clases no pueden solaparse en horario ni para profesores ni para salas  |
+| RN12   | No se puede asignar un instrumento que esté en mantenimiento o fuera de uso |
+
+---
+
+## 📖 Documentación Swagger / OpenAPI
+
+Swagger UI está habilitado automáticamente con SpringDoc.
+
+> 📍 Accede desde:
+> [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+> o
+> [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+Podrás probar todos los endpoints directamente desde esa interfaz.
+
+---
+
+## 🧪 Colección Postman / Insomnia
+
+Hemos incluido una colección de Postman con todos los endpoints implementados, lista para importar.
+
+📁 Ubicación:
+`/documentacion/maestromusica-collection.json`
+
+Cómo usar:
+
+1. Abre Postman o Insomnia
+2. Importa el archivo `.json`
+3. Ejecuta los endpoints `GET`, `POST`, `PUT` y verifica las validaciones
+
+---
+
+## 🧠 Validaciones Avanzadas
+
+El sistema maneja:
+
+* Validaciones automáticas con anotaciones `@Min`, `@Email`, `@Pattern`, etc.
+* Reglas de negocio personalizadas en la capa de servicio
+* Excepciones controladas y mensajes legibles
+* Validación de colisiones horarias entre clases
+
+---
+
+## 📎 Archivos incluidos
+
+```
+src/
+├── java/com/poli/vet/
+│   ├── controller/     # Controladores REST
+│   ├── dto/            # Data Transfer Objects
+│   ├── entity/         # Entidades JPA
+│   ├── repository/     # Repositorios Spring Data
+│   ├── service/        # Lógica de negocio
+│   ├── exception/      # Manejo de errores (opcional)
+│   └── config/         # Swagger/OpenAPI y demás configs
+└── resources/
+    ├── application.properties
+    ├── schema.sql
+    └── data.sql
+```
+---
+
+## Resultados de Enpoints
+
