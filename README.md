@@ -58,7 +58,7 @@ Entidades:
 
 ### 📦 Prerrequisitos
 
-* Java 17 o superior
+* Java 23 
 * Maven
 * IDE (IntelliJ o VSCode)
 
