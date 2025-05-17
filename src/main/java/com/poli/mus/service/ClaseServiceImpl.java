@@ -66,6 +66,8 @@ public class ClaseServiceImpl implements IClaseService {
             throw new ReglaNegocioException("El instrumento ya está asignado a otra clase en ese horario.");
         }
 
+
+
         Profesor profesor = profesorRepository.findById(claseDTO.getProfesorId())
                 .orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
 
@@ -75,6 +77,10 @@ public class ClaseServiceImpl implements IClaseService {
         Instrumento instrumento = intrumentoRepository.findById(claseDTO.getInstrumentoId())
                 .orElseThrow(() -> new RuntimeException("Instrumento no encontrado"));
 
+
+        if (!"activo".equalsIgnoreCase(instrumento.getEstado())) {
+            throw new ReglaNegocioException("El instrumento no está disponible. Estado actual: " + instrumento.getEstado());
+        }
         Clase nuevaClase = toEntity(claseDTO, profesor, sala, instrumento);
         return claseRepository.save(nuevaClase);
     }
