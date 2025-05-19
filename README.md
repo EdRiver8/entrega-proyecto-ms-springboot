@@ -67,7 +67,7 @@ Entidades:
 1. Clonar el repositorio:
 
 ```bash
-git clone https://github.com/Lifrars/entrega-proyecto-ms-springboot.githttps://github.com/Lifrars/entrega-proyecto-ms-springboot.git
+git clone https://github.com/Lifrars/entrega-proyecto-ms-springboot.git
 ```
 
 
