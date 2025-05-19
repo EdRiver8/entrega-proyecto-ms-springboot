@@ -67,20 +67,13 @@ Entidades:
 1. Clonar el repositorio:
 
 ```bash
-git clone https://github.com/tu-usuario/maestromusica.git
+git clone https://github.com/Lifrars/entrega-proyecto-ms-springboot.githttps://github.com/Lifrars/entrega-proyecto-ms-springboot.git
 ```
 
-2. Ir al proyecto:
 
-```bash
-cd maestromusica
-```
+3. Ejecutar con JetBrains 
 
-3. Ejecutar con Maven:
 
-```bash
-mvn spring-boot:run
-```
 
 4. Acceder a la consola H2 en el navegador:
 
